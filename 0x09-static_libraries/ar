@@ -1,0 +1,17 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+const char *command = "ar rcs libmy.a *.o"; 
+
+int result = system(command);
+
+if (result == 0) {
+printf("Library libmy.a created successfully.\n");
+} else {
+printf("Error creating library libmy.a.\n");
+}
+
+return 0;
+}
