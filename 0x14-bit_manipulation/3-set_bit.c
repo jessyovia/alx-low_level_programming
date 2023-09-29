@@ -1,9 +1,9 @@
 #include "main.h"
 
 /**
-* get_bit - Returns the value of a bit at a given index..
+* set_bit - Sets the value of a bit to 1 at a given index.
 * @n: A pointer to the number to modify.
-* @index: The index of the bit to retrieve, starting from 0..
+* @index: The index of the bit to the set to retrieve, starting from 0.
 *
 * Description: This function checks if the index is within the range of
 * of valid bits (0 to 63 on a typical 64-bit system).
