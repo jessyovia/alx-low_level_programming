@@ -1,7 +1,10 @@
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <main.h>
+#include "main.h"
 
 /**
  * read_textfile - Reads and prints a text file to POSIX standard output.
@@ -11,36 +14,35 @@
  * Description: This function first checks for NULL filename and allocates
  * memory for a buffer to read the file content.
  *
- * Return: The actual number of letters read and printed, or 0 on failure.
+ * Return: The actual number of letters read and printed.
  */
 
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-	ssize_t file_descriptor, bytes_read, bytes_written;
-	int fd = 0, br = 0, bw = 0;
+	int file_descript, byt_read, byt_write;
 	char *buffer;
 
 	if (filename == NULL)
 		return (0);
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
+	file_descript = open(filename, O_RDONLY);
+	if (file_descript == -1)
 		return (0);
 	buffer = malloc(sizeof(char) * letters);
 	if (buffer == NULL)
 		return (0);
-	br = read(fd, buffer, letters);
-	if (br == -1)
+	byt_read = read(file_descript, buffer, letters);
+	if (byt_read == -1)
 	{
 		free(buffer);
 		return (0);
 	}
-	bw = write(STDOUT_FILENO, buffer, br);
-	if (bw == -1 || bw != br)
+	byt_write = write(STDOUT_FILENO, buffer, byt_read);
+	if (byt_write == -1 || byt_write != byt_read)
 	{
 		free(buffer);
 		return (0);
 	}
 	free(buffer);
-	close(fd);
-	return (br);
+	close(file_descript);
+	return (byt_read);
 }
