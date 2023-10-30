@@ -55,7 +55,8 @@ close_src = close(src_fd);
 close_dest = close(dest_fd);
 if (close_src == -1 || close_dest == -1)
 {
-dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", (close_src == -1) ? src_fd : dest_fd);
+dprintf(STDERR_FILENO, "Error: Can't close fd %d\n"
+(close_src == -1) ? src_fd : dest_fd);
 exit(100);
 }
 
