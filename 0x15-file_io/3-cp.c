@@ -3,23 +3,24 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#define BUF_SIZE 1024
+ssize_t read_and_write(int src_fd, int dest_fd)
+{
+ssize_t bytes_read, bytes_written;
+char buffer[1024];
 
-/**
- * main - Entry point, copies the content of one file to another.
- * @argc: The number of arguments passed to the program.
- * @argv: An array of argument strings (file_from and file_to).
- * Description: This program first checks the number of arguments
- * and prints the appropriate error message if it's incorrect
- *
- * Return: 0 on success, or an error code as specified in the requirements.
- */
+while ((bytes_read = read(src_fd, buffer, 1024)) > 0)
+{
+bytes_written = write(dest_fd, buffer, bytes_read);
+if (bytes_written == -1 || bytes_written != bytes_read)
+return (-1);
+}
+
+return (bytes_read);
+}
 
 int main(int argc, char *argv[])
 {
-int src_fileD, dest_fileD, close_src, close_dest;
-ssize_t rd, wrt;
-char buffer[BUF_SIZE];
+int src_fd, dest_fd, close_src, close_dest;
 
 if (argc != 3)
 {
@@ -27,38 +28,34 @@ dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 exit(97);
 }
 
-src_fileD = open(argv[1], O_RDONLY);
-if (src_fileD == -1)
+src_fd = open(argv[1], O_RDONLY);
+if (src_fd == -1)
 {
 dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
 exit(98);
 }
 
-dest_fileD = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-if (dest_fileD == -1)
+dest_fd = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+if (dest_fd == -1)
 {
 dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-close(src_fileD);
+close(src_fd);
 exit(99);
 }
 
-while ((rd = read(src_fileD, buffer, BUF_SIZE)) > 0)
-{
-wrt = write(dest_fileD, buffer, rd);
-if (wrt != rd)
+if (read_and_write(src_fd, dest_fd) == -1)
 {
 dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-close(src_fileD);
-close(dest_fileD);
+close(src_fd);
+close(dest_fd);
 exit(99);
 }
-}
-close_src = close(src_fileD);
-close_dest = close(dest_fileD);
+
+close_src = close(src_fd);
+close_dest = close(dest_fd);
 if (close_src == -1 || close_dest == -1)
 {
-dprintf(STDERR_FILENO, "Error: Can't close fileD %d\n",
-(close_src == -1) ? src_fileD : dest_fileD);
+dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", (close_src == -1) ? src_fd : dest_fd);
 exit(100);
 }
 
