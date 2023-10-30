@@ -3,6 +3,14 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+/**
+ * * main - Entry point, copies the content of one file to another.
+ * @argc: The number of arguments passed to the program.
+ * @argv: An array of argument strings (file_from and file_to).
+ * Description: This program first checks the number of arguments
+ * and prints the appropriate error message if it's incorre}
+ */
+
 ssize_t read_and_write(int src_fd, int dest_fd)
 {
 ssize_t bytes_read, bytes_written;
@@ -55,7 +63,7 @@ close_src = close(src_fd);
 close_dest = close(dest_fd);
 if (close_src == -1 || close_dest == -1)
 {
-dprintf(STDERR_FILENO, "Error: Can't close fd %d\n" (close_src == -1) ? src_fd : dest_fd);
+dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", (close_src == -1) ? src_fd : dest_fd);
 exit(100);
 }
 
