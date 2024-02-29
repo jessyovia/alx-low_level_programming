@@ -1,20 +1,14 @@
 # 5-island_perimeter.py
+
 #!/usr/bin/python3
 """
-Calculates the perimeter of an island in a grid.
+5-island_perimeter
 """
 
 
 def island_perimeter(grid):
     """
-    Calculates the perimeter of an island in a grid.
-
-    Args:
-        grid (list): A list of lists of integers representing the grid.
-
-    Returns:
-        int: The perimeter of the island.
-
+    Returns the perimeter of the island described in grid
     """
     perimeter = 0
     for i in range(len(grid)):
