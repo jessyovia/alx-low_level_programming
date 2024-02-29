@@ -1,10 +1,8 @@
-# Makefile for task 6
-
 CC = gcc
 SRC = $(wildcard *.c)
 OBJ = $(SRC:.c=.o)
 NAME = school
-RM = rm -f
+RM = /bin/rm -f
 CFLAGS = -Wall -Werror -Wextra -pedantic
 HEADER = m.h
 
